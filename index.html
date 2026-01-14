@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;">
+  <title>Meet Helper</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Title Bar -->
+    <div class="title-bar">
+      <div class="title-bar-drag">
+        <span class="app-title">🎙️ Meet Helper</span>
+      </div>
+      <div class="window-controls">
+        <button class="control-btn minimize-btn" id="minimize-btn">─</button>
+        <button class="control-btn close-btn" id="close-btn">✕</button>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Recording Status -->
+      <div class="status-section">
+        <div class="status-indicator" id="status-indicator">
+          <div class="pulse-ring"></div>
+          <div class="status-dot"></div>
+        </div>
+        <p class="status-text" id="status-text">Press <kbd>M</kbd> to start recording</p>
+      </div>
+
+      <!-- Recording Timer -->
+      <div class="timer-section" id="timer-section">
+        <span class="timer" id="timer">00:00</span>
+      </div>
+
+      <!-- Results Section -->
+      <div class="results-section" id="results-section">
+        <!-- Transcription -->
+        <div class="result-card" id="transcription-card">
+          <div class="card-header">
+            <span class="card-icon">📝</span>
+            <h3>Transcription</h3>
+          </div>
+          <div class="card-content" id="transcription-content">
+            <p class="placeholder">Your transcription will appear here...</p>
+          </div>
+        </div>
+
+        <!-- AI Solution -->
+        <div class="result-card" id="solution-card">
+          <div class="card-header">
+            <span class="card-icon">💡</span>
+            <h3>AI Solution</h3>
+          </div>
+          <div class="card-content" id="solution-content">
+            <p class="placeholder">AI-powered insights will appear here...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading Overlay -->
+      <div class="loading-overlay" id="loading-overlay">
+        <div class="loader">
+          <div class="loader-ring"></div>
+          <span class="loader-text" id="loader-text">Processing...</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <span>Powered by OpenAI</span>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
