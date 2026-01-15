@@ -220,6 +220,17 @@ window.electronAPI.onToggleRecording(() => {
   }
 });
 
+// Listen for shortcuts enabled/disabled
+window.electronAPI.onShortcutsToggled((enabled) => {
+  if (enabled) {
+    document.body.classList.remove('shortcuts-disabled');
+    statusText.innerHTML = 'Shortcuts enabled. Press <kbd>M</kbd> to record';
+  } else {
+    document.body.classList.add('shortcuts-disabled');
+    statusText.innerHTML = '⏸️ Shortcuts disabled. Press <kbd>*</kbd> to enable';
+  }
+});
+
 // Initialize cards as hidden
 transcriptionCard.classList.remove('visible');
 solutionCard.classList.remove('visible');

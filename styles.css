@@ -379,3 +379,13 @@ body {
 .card-content.has-content {
   animation: fadeInUp 0.4s ease-out;
 }
+
+/* ===== Shortcuts Disabled State ===== */
+body.shortcuts-disabled .app-container {
+  opacity: 0.6;
+}
+
+body.shortcuts-disabled .status-dot {
+  background: #6b7280 !important;
+  box-shadow: none !important;
+}

@@ -7,6 +7,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.on('toggle-recording', callback);
   },
 
+  // Shortcuts toggled listener
+  onShortcutsToggled: (callback) => {
+    ipcRenderer.on('shortcuts-toggled', (event, enabled) => callback(enabled));
+  },
+
   // Transcribe audio via Whisper API
   transcribeAudio: (audioBuffer) => {
     return ipcRenderer.invoke('transcribe-audio', audioBuffer);
