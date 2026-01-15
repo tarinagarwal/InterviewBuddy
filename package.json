@@ -22,6 +22,7 @@
   "dependencies": {
     "dotenv": "^17.2.3",
     "koffi": "^2.15.0",
-    "openai": "^4.20.0"
+    "openai": "^4.20.0",
+    "screenshot-desktop": "^1.15.3"
   }
 }
