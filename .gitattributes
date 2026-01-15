@@ -1,0 +1,17 @@
+# Encrypt all JavaScript files
+*.js filter=git-crypt diff=git-crypt
+
+# Encrypt CSS
+*.css filter=git-crypt diff=git-crypt
+
+# Encrypt HTML
+*.html filter=git-crypt diff=git-crypt
+
+# Keep these files public (unencrypted)
+README.md !filter !diff
+package.json !filter !diff
+package-lock.json !filter !diff
+.gitignore !filter !diff
+.gitattributes !filter !diff
+.env.example !filter !diff
+shortcuts.md !filter !diff
