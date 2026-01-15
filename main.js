@@ -21,6 +21,7 @@ if (fs.existsSync(envPath)) {
 let mainWindow;
 let openai;
 let conversationHistory = []; // Store last 5 Q&A pairs for context
+let shortcutsEnabled = true; // Track if shortcuts are enabled
 
 // Initialize OpenAI - reads from environment variable
 function initOpenAI() {
@@ -33,6 +34,41 @@ function initOpenAI() {
   return new OpenAI({ apiKey });
 }
 
+// Register all shortcuts
+function registerShortcuts() {
+  // M - Toggle recording (only works if shortcuts are enabled)
+  globalShortcut.register('M', () => {
+    if (shortcutsEnabled) {
+      mainWindow.webContents.send('toggle-recording');
+    }
+  });
+
+  // Numpad * - Toggle shortcuts on/off (always works)
+  globalShortcut.register('nummult', () => {
+    shortcutsEnabled = !shortcutsEnabled;
+    mainWindow.webContents.send('shortcuts-toggled', shortcutsEnabled);
+    console.log('Shortcuts', shortcutsEnabled ? 'ENABLED' : 'DISABLED');
+  });
+
+  // Numpad - - Hide window and register Insert to restore
+  globalShortcut.register('numsub', () => {
+    globalShortcut.unregisterAll();
+    mainWindow.hide();
+    
+    // Register Insert key to restore window
+    globalShortcut.register('Insert', () => {
+      globalShortcut.unregister('Insert');
+      mainWindow.show();
+      registerShortcuts();
+      shortcutsEnabled = true;
+      mainWindow.webContents.send('shortcuts-toggled', true);
+      console.log('Window restored. All shortcuts enabled.');
+    });
+    
+    console.log('Window hidden. Press Insert to restore.');
+  });
+}
+
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 500,
@@ -43,6 +79,7 @@ function createWindow() {
     transparent: true,
     resizable: true,
     alwaysOnTop: true,
+    skipTaskbar: false, // Keep in taskbar so user can restore
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
@@ -52,9 +89,14 @@ function createWindow() {
 
   mainWindow.loadFile('index.html');
   
-  // Register global hotkey 'M' for recording toggle
-  globalShortcut.register('M', () => {
-    mainWindow.webContents.send('toggle-recording');
+  // Register shortcuts
+  registerShortcuts();
+
+  // Re-register shortcuts when window is shown (restored from taskbar)
+  mainWindow.on('show', () => {
+    registerShortcuts();
+    shortcutsEnabled = true;
+    console.log('Window restored. Shortcuts re-enabled.');
   });
 
   mainWindow.on('closed', () => {
