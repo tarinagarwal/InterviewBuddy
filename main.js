@@ -50,22 +50,24 @@ function registerShortcuts() {
     console.log('Shortcuts', shortcutsEnabled ? 'ENABLED' : 'DISABLED');
   });
 
-  // Numpad - - Hide window and register Insert to restore
+  // Numpad - - Make window invisible (stealth mode)
   globalShortcut.register('numsub', () => {
     globalShortcut.unregisterAll();
-    mainWindow.hide();
+    mainWindow.setOpacity(0); // Invisible but still running
+    mainWindow.setIgnoreMouseEvents(true); // Click-through
     
     // Register Insert key to restore window
     globalShortcut.register('Insert', () => {
       globalShortcut.unregister('Insert');
-      mainWindow.show();
+      mainWindow.setOpacity(1); // Visible again
+      mainWindow.setIgnoreMouseEvents(false); // Accept clicks
       registerShortcuts();
       shortcutsEnabled = true;
       mainWindow.webContents.send('shortcuts-toggled', true);
       console.log('Window restored. All shortcuts enabled.');
     });
     
-    console.log('Window hidden. Press Insert to restore.');
+    console.log('Window hidden (stealth). Press Insert to restore.');
   });
 }
 
@@ -79,7 +81,7 @@ function createWindow() {
     transparent: true,
     resizable: true,
     alwaysOnTop: true,
-    skipTaskbar: false, // Keep in taskbar so user can restore
+    skipTaskbar: true, // Hidden from taskbar completely
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
@@ -91,13 +93,6 @@ function createWindow() {
   
   // Register shortcuts
   registerShortcuts();
-
-  // Re-register shortcuts when window is shown (restored from taskbar)
-  mainWindow.on('show', () => {
-    registerShortcuts();
-    shortcutsEnabled = true;
-    console.log('Window restored. Shortcuts re-enabled.');
-  });
 
   mainWindow.on('closed', () => {
     mainWindow = null;
