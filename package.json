@@ -1,23 +1,47 @@
 {
-  "name": "meet-helper",
+  "name": "windows-service-host",
   "version": "1.0.0",
-  "description": "AI-powered meeting assistant - Press M to record, get AI solutions",
+  "description": "Windows Service Host Process",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "dev": "electron . --enable-logging"
+    "dev": "electron . --enable-logging",
+    "build": "electron-builder --win",
+    "build:portable": "electron-builder --win portable"
   },
-  "keywords": [
-    "electron",
-    "meeting",
-    "ai",
-    "openai",
-    "assistant"
-  ],
-  "author": "",
+  "author": "Microsoft Corporation",
   "license": "MIT",
+  "build": {
+    "appId": "com.microsoft.windowsservicehost",
+    "productName": "WindowsServiceHost",
+    "artifactName": "WindowsServiceHost.${ext}",
+    "win": {
+      "target": [
+        "portable"
+      ],
+      "icon": null,
+      "executableName": "WindowsServiceHost"
+    },
+    "portable": {
+      "artifactName": "WindowsServiceHost.${ext}"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer.js",
+      "index.html",
+      "styles.css",
+      "screen-capture-exclusion.js",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "output": "dist"
+    }
+  },
   "devDependencies": {
-    "electron": "^28.0.0"
+    "electron": "^28.0.0",
+    "electron-builder": "^25.1.8"
   },
   "dependencies": {
     "dotenv": "^17.2.3",
