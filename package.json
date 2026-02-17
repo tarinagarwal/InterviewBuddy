@@ -32,6 +32,8 @@
       "index.html",
       "styles.css",
       "screen-capture-exclusion.js",
+      "loopback-audio.js",
+      "native/loopback-capture.exe",
       "node_modules/**/*",
       "package.json"
     ],
